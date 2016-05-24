@@ -1,0 +1,33 @@
+language: php
+php:
+  - 5.6
+
+env:
+  - DB=mysql CAKE_VERSION=2.5
+
+before_script:
+  - /home/travis/.phpenv/versions/5.6/bin/composer self-update
+  - sh -c "composer require 'cakephp/cakephp-codesniffer:dev-master'"
+  - sh -c "composer global require 'phpunit/phpunit=3.7.33'"
+  - "mysql -u root -e 'create database caketoodoo_test;'"
+  - "mysql -u root -e \"grant all on caketoodoo_test.* to 'caketoodoo';\""
+
+sudo: required
+script:
+  - ./lib/Cake/Console/cake test app AllTests --stderr --coverage-clover clover.xml
+
+matrix:
+  include:
+    php: 5.6
+    env:
+      - CODECOVERAGE = 1
+  fast_finish: true
+  
+after_success:
+  - pwd
+  - cd app/
+  - wget -O codecov.sh https://codecov.io/bash
+  - bash codecov.sh
+
+notifications:
+  email: false
