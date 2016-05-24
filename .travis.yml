@@ -15,7 +15,7 @@ before_script:
 sudo: required
 script:
   - cd app
-  - ./Console/cake test app Model/Article
+  - ./Console/cake test app Model/Task
 
 
 matrix:
