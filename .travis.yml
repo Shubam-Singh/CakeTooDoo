@@ -14,20 +14,22 @@ before_script:
 
 sudo: required
 script:
-  - ./lib/Cake/Console/cake test app AllTests --stderr --coverage-clover clover.xml
+  - cd app
+  - ./Console/cake test app Model/Article
+
 
 matrix:
   include:
     php: 5.6
-    env:
-      - CODECOVERAGE = 1
+    # env:
+    #   - CODECOVERAGE = 1
   fast_finish: true
   
-after_success:
-  - pwd
-  - cd app/
-  - wget -O codecov.sh https://codecov.io/bash
-  - bash codecov.sh
+# after_success:
+#   - pwd
+#   - cd app/
+#   - wget -O codecov.sh https://codecov.io/bash
+#   - bash codecov.sh
 
 notifications:
   email: false
